@@ -3,7 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from Weight import Weight
-
+import RPi.GPIO as GPIO  # import GPIO
 
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
@@ -13,9 +13,15 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     plate_weight = Weight('swap_file.swp',21,20)
-    if plate_weight.initWeight():
-        while True:
-            plate_weight.weight()
-    print_hi('PyCharm')
+    try:
+        if plate_weight.initWeight():
+            while True:
+                plate_weight.weight()
+        print_hi('PyCharm')
+    except (KeyboardInterrupt, SystemExit):
+        print('Bye :)')
+
+    finally:
+        GPIO.cleanup()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

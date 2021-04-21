@@ -3,8 +3,7 @@ import pickle
 import os
 
 import RPi.GPIO as GPIO  # import GPIO
-
-from hx711 import HX711
+from hx711 import HX711  # import the class HX711
 
 try:
     GPIO.setmode(GPIO.BCM)  # set GPIO pin mode to BCM numbering
