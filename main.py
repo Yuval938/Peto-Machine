@@ -12,7 +12,7 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    plate_weight = Weight('swap_file.swp')
+    plate_weight = Weight('swap_file.swp',21,20)
     if plate_weight.initWeight():
         while True:
             plate_weight.weight()
