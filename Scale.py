@@ -12,7 +12,7 @@ class Scale(IScale):
         # self.dout_sck_pin=dout_sck_pin
         # # Create an object hx which represents your real hx711 chip
         # # Required input parameters are only 'dout_pin' and 'pd_sck_pin'
-        # self.hx = HX711(self.dout_pin,self.dout_sck_pin)
+        self.hx = HX711(self.dout_pin,self.dout_sck_pin)
         pass
 
     def weight(self):
