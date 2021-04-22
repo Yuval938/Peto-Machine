@@ -8,8 +8,8 @@ import os
 class Scale(IScale):
     def __init__(self, cfg_file_name: str,dout_pin:int,dout_sck_pin:int):
         self.cfg_file_name = cfg_file_name  # this will detrmine which scale we are addressing to
-        # self.dout_pin=dout_pin
-        # self.dout_sck_pin=dout_sck_pin
+        self.dout_pin=dout_pin
+        self.dout_sck_pin=dout_sck_pin
         # # Create an object hx which represents your real hx711 chip
         # # Required input parameters are only 'dout_pin' and 'pd_sck_pin'
         self.hx = HX711(self.dout_pin,self.dout_sck_pin)
