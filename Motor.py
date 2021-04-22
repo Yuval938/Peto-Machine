@@ -36,7 +36,7 @@ class Motor(IMotor):
             Let's take 100 Hertz as an example.
             '''
 
-            self.PWM_FREQUENCY = 200  # In Hertz, which means 100 pulses in 1secs (1000ms) --> 1 pulse = 10ms
+            self.PWM_FREQUENCY = 400  # In Hertz, which means 100 pulses in 1secs (1000ms) --> 1 pulse = 10ms
 
             '''
             However, 20ms pulses are still too long for FORWARD (2ms) or BACKWARD(1ms).
@@ -46,7 +46,7 @@ class Motor(IMotor):
             for BACKWARD : ( 1 / 10 ) X 100 = 10% of dutycycle.
             '''
 
-            self.FULL_SPEED_FORWARD_DC = 30
+            self.FULL_SPEED_FORWARD_DC = 60
             self.FULL_SPEED_BACKWARD_DC = 10
             self.pwm = GPIO.PWM(self.servoControlPin, self.PWM_FREQUENCY)
         except:
