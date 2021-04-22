@@ -46,7 +46,7 @@ class Motor(IMotor):
             for BACKWARD : ( 1 / 10 ) X 100 = 10% of dutycycle.
             '''
 
-            self.FULL_SPEED_FORWARD_DC = 20
+            self.FULL_SPEED_FORWARD_DC = 17
             self.FULL_SPEED_BACKWARD_DC = 10
             self.pwm = GPIO.PWM(self.servoControlPin, self.PWM_FREQUENCY)
         except:
