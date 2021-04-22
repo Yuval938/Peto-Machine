@@ -55,7 +55,7 @@ class Motor(IMotor):
     def motorOn(self):
         self.pwm.start(self.FULL_SPEED_FORWARD_DC)
         time.sleep(0.5)
-        self.pwm.stop()
+        self.pwm.ChangeDutyCycle(0)
 
     def motorOff(self):
         self.pwm.stop()
