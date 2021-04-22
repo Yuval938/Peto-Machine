@@ -5,6 +5,7 @@
 from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
+GPIO.setmode(GPIO.BCM)
 
 
 def print_hi(name):

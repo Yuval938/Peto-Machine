@@ -3,7 +3,7 @@ from sensors.HX711.hx711 import HX711
 import RPi.GPIO as GPIO  # import GPIO
 import pickle
 import os
-
+GPIO.setmode(GPIO.BCM)
 
 class Scale(IScale):
     def __init__(self, cfg_file_name: str,dout_pin:int,dout_sck_pin:int):
