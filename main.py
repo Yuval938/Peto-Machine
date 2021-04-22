@@ -21,7 +21,7 @@ if __name__ == '__main__':
     try:
         peto.GetCurrentPlateStatus()
         grams = input('Enter amount of food (in grams): ')
-        peto.FeedPet(grams=grams)
+        peto.FeedPet(grams=int(grams))
     # if plate_scale.initWeight():
     #     while True:
     #         plate_scale.weight()
