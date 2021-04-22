@@ -2,6 +2,7 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from Motor import Motor
 from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
@@ -17,7 +18,8 @@ def print_hi(name):
 if __name__ == '__main__':
     plate_scale = Scale('swap_file.swp', 21, 20)
     plate_scale.initWeight()
-    peto = PETO(plate_scale, plate_scale, "motor_object")
+    motor = Motor(18)
+    peto = PETO(plate_scale, plate_scale,motor)
     try:
         peto.GetCurrentPlateStatus()
         grams = input('Enter amount of food (in grams): ')
