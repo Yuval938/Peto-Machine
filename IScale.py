@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import RPi.GPIO as GPIO  # import GPIO
 
 
-class IWeight(ABC):
+class IScale(ABC):
     @abstractmethod
     def __init__(self):
         pass

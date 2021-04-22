@@ -2,7 +2,7 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from Weight import Weight
+from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
 
 def print_hi(name):
@@ -12,11 +12,11 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    plate_weight = Weight('swap_file.swp',21,20)
+    plate_scale = Scale('swap_file.swp', 21, 20)
     try:
-        if plate_weight.initWeight():
+        if plate_scale.initWeight():
             while True:
-                plate_weight.weight()
+                plate_scale.weight()
         print_hi('PyCharm')
     except (KeyboardInterrupt, SystemExit):
         print('Bye :)')

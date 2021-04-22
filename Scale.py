@@ -1,11 +1,11 @@
-from IWeight import IWeight
+from IScale import IScale
 from sensors.HX711.hx711 import HX711
 import RPi.GPIO as GPIO  # import GPIO
 import pickle
 import os
 
 
-class Weight(IWeight):
+class Scale(IScale):
     def __init__(self, cfg_file_name: str,dout_pin:int,dout_sck_pin:int):
         self.cfg_file_name = cfg_file_name  # this will detrmine which scale we are addressing to
         # self.dout_pin=dout_pin
