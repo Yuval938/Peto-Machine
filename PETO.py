@@ -24,5 +24,6 @@ class PETO(IPETO):
     def FeedPet(self, grams):  # I'm assuming the plate is empty.
         while(self.GetCurrentPlateStatus() < grams):
             self.motorOn()
+            self.GetCurrentPlateStatus()
         num = self.GetCurrentPlateStatus()
         print(f"finished feeding! weight on plate is {num}")
