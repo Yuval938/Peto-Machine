@@ -6,6 +6,7 @@ from Motor import Motor
 from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
+import requests
 GPIO.setmode(GPIO.BCM)
 
 
@@ -22,8 +23,10 @@ if __name__ == '__main__':
     peto = PETO(plate_scale, plate_scale,motor)
     try:
         peto.GetCurrentPlateStatus()
-        grams = input('Enter amount of food (in grams): ')
-        peto.FeedPet(grams=int(grams))
+        #grams = input('Enter amount of food (in grams): ')
+        input("press any key")
+        grams = int(requests.get('http://10.0.0.9:5000/pets/feed/1').text.strip('\n'))
+        peto.FeedPet(grams=grams)
     # if plate_scale.initWeight():
     #     while True:
     #         plate_scale.weight()

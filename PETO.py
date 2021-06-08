@@ -4,7 +4,7 @@ from Motor import IMotor
 
 
 class PETO(IPETO):
-    def __init__(self, plateScale: IScale, containerScale: IScale, motor:IMotor):
+    def __init__(self, plateScale: IScale, containerScale: IScale, motor: IMotor):
         super().__init__(plateScale, containerScale, motor)
         self.plateScale = plateScale
         self.containerScale = containerScale
@@ -25,8 +25,8 @@ class PETO(IPETO):
         self.motor.motorOff()
 
     def FeedPet(self, grams):  # I'm assuming the plate is empty.
-        while(self.GetCurrentPlateStatus() < grams):
+        while (self.GetCurrentPlateStatus() < grams):
             self.motorOn()
-            #self.GetCurrentPlateStatus()
+            # self.GetCurrentPlateStatus()
         num = self.GetCurrentPlateStatus()
         print(f"finished feeding! weight on plate is {num}")
