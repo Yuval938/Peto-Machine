@@ -30,9 +30,9 @@ if __name__ == '__main__':
         while True:
             sleep(3)
             print('check')
-            val = requests.get('http://10.0.0.9:5000/pets/feed/1').text
-            if val:
-                grams = int(val.strip('\n'))
+            val = requests.get('http://10.0.0.9:5000/pets/feed/1').text.strip('\n')
+            if val != '':
+                grams = int(val)
                 peto.FeedPet(grams=grams)
     # if plate_scale.initWeight():
     #     while True:
