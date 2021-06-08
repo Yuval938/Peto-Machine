@@ -2,11 +2,14 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from time import sleep
+
 from Motor import Motor
 from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
 import requests
+
 GPIO.setmode(GPIO.BCM)
 
 
@@ -20,13 +23,17 @@ if __name__ == '__main__':
     plate_scale = Scale('swap_file.swp', 21, 20)
     plate_scale.initWeight()
     motor = Motor(18)
-    peto = PETO(plate_scale, plate_scale,motor)
+    peto = PETO(plate_scale, plate_scale, motor)
     try:
         peto.GetCurrentPlateStatus()
-        #grams = input('Enter amount of food (in grams): ')
-        input("press any key")
-        grams = int(requests.get('http://10.0.0.9:5000/pets/feed/1').text.strip('\n'))
-        peto.FeedPet(grams=grams)
+        # grams = input('Enter amount of food (in grams): ')
+        while True:
+            sleep(1000)
+            print('check')
+            val = requests.get('http://10.0.0.9:5000/pets/feed/1').text
+            if val:
+                grams = int(val.strip('\n'))
+                peto.FeedPet(grams=grams)
     # if plate_scale.initWeight():
     #     while True:
     #         plate_scale.weight()
