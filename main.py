@@ -31,7 +31,7 @@ if __name__ == '__main__':
             sleep(3)
             print('check')
             val = requests.get('http://10.0.0.9:5000/pets/feed/1').text.strip('\n')
-            if val != '':
+            if val != 'null':
                 grams = int(val)
                 peto.FeedPet(grams=grams)
     # if plate_scale.initWeight():
