@@ -25,7 +25,7 @@ class PETO(IPETO):
         self.motor.motorOff()
 
     def FeedPet(self, grams):  # I'm assuming the plate is empty.
-        while (self.GetCurrentPlateStatus() < grams):
+        while (self.GetCurrentPlateStatus() + 10 < grams):
             self.motorOn()
             # self.GetCurrentPlateStatus()
         num = self.GetCurrentPlateStatus()
