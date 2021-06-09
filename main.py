@@ -33,7 +33,7 @@ if __name__ == '__main__':
             if val != 'null':
                 grams = int(val)
                 peto.FeedPet(grams=grams)
-            sleep(3)
+            sleep(0.5)
     # if plate_scale.initWeight():
     #     while True:
     #         plate_scale.weight()
