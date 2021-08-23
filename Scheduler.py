@@ -15,7 +15,7 @@ def should_I_Feed(peto):
     if val != 'null':
         grams = int(val)
         peto.FeedPet(grams=grams)
-        schedule.every(1).minutes.do(check_for_remaining_food)
+        schedule.every(1).minutes.do(check_for_remaining_food,peto)
 
 
 def check_for_remaining_food(peto):
