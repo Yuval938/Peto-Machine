@@ -32,6 +32,7 @@ def check_for_remaining_food(peto):
 def feed(peto,grams):
     print("feeding pet")
     peto.FeedPet(grams)
+    schedule.every(1).minutes.do(check_for_remaining_food, peto)
 
 
 class Scheduler(IScheduler):
