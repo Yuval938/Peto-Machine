@@ -9,6 +9,8 @@ class PETO(IPETO):
         self.plateScale = plateScale
         self.containerScale = containerScale
         self.motor = motor
+        self.foodOnPlate=0
+        self.latest=0
 
     def GetCurrentPlateStatus(self):
         return self.plateScale.weight()
@@ -29,4 +31,6 @@ class PETO(IPETO):
             self.motorOn()
             # self.GetCurrentPlateStatus()
         num = self.GetCurrentPlateStatus()
+        self.foodOnPlate = num
+        self.latest = num
         print(f"finished feeding! weight on plate is {num}")

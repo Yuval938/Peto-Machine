@@ -9,8 +9,11 @@ from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
 import requests
+from IScheduler import IScheduler
+from Scheduler import Scheduler
 
 GPIO.setmode(GPIO.BCM)
+
 
 
 def print_hi(name):
@@ -24,12 +27,15 @@ if __name__ == '__main__':
     plate_scale.initWeight()
     motor = Motor(18)
     peto = PETO(plate_scale, plate_scale, motor)
+    #if everything is ok,we should run the normal rotuine
+    petoSchudeler = Scheduler
+    petoSchudeler.normalRoutine()
     try:
         peto.GetCurrentPlateStatus()
         # grams = input('Enter amount of food (in grams): ')
         while True:
             print('check')
-            val = requests.get('http://10.0.0.9:5000/pets/feed/1').text.strip('\n')
+            val = requests.get('http://192.168.1.39:5000/pets/feed/1').text.strip('\n')
             if val != 'null':
                 grams = int(val)
                 peto.FeedPet(grams=grams)
