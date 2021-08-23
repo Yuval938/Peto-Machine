@@ -28,7 +28,7 @@ if __name__ == '__main__':
     motor = Motor(18)
     peto = PETO(plate_scale, plate_scale, motor)
     #if everything is ok,we should run the normal rotuine
-    petoSchudeler = Scheduler
+    petoSchudeler = Scheduler(peto=peto)
     petoSchudeler.normalRoutine()
     try:
         peto.GetCurrentPlateStatus()

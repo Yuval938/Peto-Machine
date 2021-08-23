@@ -46,7 +46,7 @@ class Scheduler(IScheduler):
     def add_to_schedule(self, func):
         pass
 
-    def normalRoutine(self,):
+    def normalRoutine(self):
         schedule.every(1).minutes.do(check_for_new_schedule, self.peto)
         schedule.every(4).seconds.do(should_I_Feed, self.peto)
         schedule.every(4).minutes.do(feed, self.peto,30)
