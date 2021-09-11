@@ -35,6 +35,7 @@ if __name__ == '__main__':
     try:
         while True:
             print(peto.GetCurrentPlateStatus())
+            sleep(1)
             print(peto.GetCurrentContainer())
             sleep(1)
         # grams = input('Enter amount of food (in grams): ')
