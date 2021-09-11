@@ -13,10 +13,14 @@ class PETO(IPETO):
         self.latest=0
 
     def GetCurrentPlateStatus(self):
-        return self.plateScale.weight()
+        scale = self.plateScale.weight()
+        print(f"scale on plate is {scale} ")
+        return scale#self.plateScale.weight()
 
     def GetCurrentContainer(self):
-        return self.containerScale.weight()
+        scale = self.containerScale.weight()
+        print(f"scale on Container is {scale} ")
+        return scale#self.containerScale.weight()
 
     def motorOn(self):
         self.motor.motorOn()
