@@ -25,7 +25,7 @@ def print_hi(name):
 if __name__ == '__main__':
     plate_scale = Scale('swap_file.swp', 21, 20)
     plate_scale.initWeight()
-    container_scale = Scale('swap_file.swp', 11, 10)
+    container_scale = Scale('container_swap.swp', 11, 10)
     container_scale.initWeight()
     motor = Motor(18)
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor)
