@@ -7,6 +7,7 @@ import time
 
 def check_for_new_schedule():
     print("asking server if there is a new feeding schedule")
+    #if not in list we should add a job
 
 
 def should_I_Feed(peto):
