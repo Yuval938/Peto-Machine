@@ -31,7 +31,7 @@ if __name__ == '__main__':
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor)
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
-    petoSchudeler.normalRoutine()
+    #petoSchudeler.normalRoutine()
     try:
         while True:
             print(peto.GetCurrentPlateStatus())
