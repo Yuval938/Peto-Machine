@@ -25,10 +25,9 @@ class Scale(IScale):
         GPIO.setmode(GPIO.BCM)  # set GPIO pin mode to BCM numbering
         # Create an object hx which represents your real hx711 chip
         # Required input parameters are only 'dout_pin' and 'pd_sck_pin'
-        self.hx = HX711(dout_pin=21, pd_sck_pin=20)
+        self.hx = HX711(dout_pin=self.dout_pin, pd_sck_pin=self.dout_sck_pin)
         # Check if we have swap file. If yes that suggest that the program was not
         # terminated proprly (power failure). We load the latest state.
-        self.cfg_file_name = 'swap_file.swp'
         if os.path.isfile(self.cfg_file_name):
             with open(self.cfg_file_name, 'rb') as swap_file:
                 self.hx = pickle.load(swap_file)
