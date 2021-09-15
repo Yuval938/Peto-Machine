@@ -58,3 +58,5 @@ class Scheduler(IScheduler):
         # schedule.every().hour.do(job)
         # schedule.every().day.at("10:30").do(job)
         pass
+    def BootupRoutine(self):
+        # here we should try fetch info via Bluetooth from mobile phone in order to establish connection to local network

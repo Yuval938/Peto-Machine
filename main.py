@@ -33,11 +33,6 @@ if __name__ == '__main__':
     petoSchudeler = Scheduler(peto=peto)
     #petoSchudeler.normalRoutine()
     try:
-        while True:
-            print(peto.GetCurrentPlateStatus())
-            sleep(4)
-            print(peto.GetCurrentContainer())
-            sleep(1)
         # grams = input('Enter amount of food (in grams): ')
         while True:
             print('check')
