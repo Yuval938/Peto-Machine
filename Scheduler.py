@@ -22,11 +22,13 @@ def should_I_Feed(peto):
 def check_for_remaining_food(peto):
     print("checking remaining food on plate")
     val = peto.GetCurrentPlateStatus()
-    print(f"food on plate is {val}")
-    if peto.latest <= val or peto.latest >= val + 10:
-        print("finished meal sending lunch status")
-        return schedule.CancelJob
+    delta = peto.latest - val
     peto.latest = val
+    print(f"food on plate is {val}")
+    if delta <=5:
+        food_eaten = peto.foodOnPlate - peto.latest
+        print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
+        return schedule.CancelJob
 
 
 
@@ -49,7 +51,7 @@ class Scheduler(IScheduler):
         pass
 
     def normalRoutine(self):
-        schedule.every(1).minutes.do(check_for_new_schedule)
+        # schedule.every(1).minutes.do(check_for_new_schedule)
         schedule.every(4).seconds.do(should_I_Feed, self.peto)
         # schedule.every(4).minutes.do(feed, self.peto,30)
         while 1:
