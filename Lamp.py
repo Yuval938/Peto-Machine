@@ -8,31 +8,63 @@
 import RPi.GPIO as GPIO
 import time
 
-ledPin = 12    # define ledPin
+from ILamp import ILamp
 
-def setup():
-    GPIO.setmode(GPIO.BCM)       # use PHYSICAL GPIO Numbering
-    GPIO.setup(ledPin, GPIO.OUT)   # set the ledPin to OUTPUT mode
-    GPIO.output(ledPin, GPIO.LOW)  # make ledPin output LOW level
-    print ('using pin%d'%ledPin)
 
-def loop():
-    while True:
-        GPIO.output(ledPin, GPIO.HIGH)  # make ledPin output HIGH level to turn on led
-        print ('led turned on >>>')     # print information on terminal
-        time.sleep(1)                   # Wait for 1 second
-        GPIO.output(ledPin, GPIO.LOW)   # make ledPin output LOW level to turn off led
-        print ('led turned off <<<')
-        time.sleep(1)                   # Wait for 1 second
+class Lamp(ILamp):
+    def __init__(self, ledPin):
+        super().__init__()
+        self.blink = False
+        self.on = True
+        self.ledPin = ledPin
+        GPIO.setmode(GPIO.BCM)  # use PHYSICAL GPIO Numbering
+        GPIO.setup(self.ledPin, GPIO.OUT)  # set the ledPin to OUTPUT mode
+        GPIO.output(self.ledPin, GPIO.LOW)  # make ledPin output LOW level
+        print('using pin%d' % self.ledPin)
+    def On(self):
+        GPIO.output(self.ledPin, GPIO.HIGH)
+    def Off(self):
+        GPIO.output(self.ledPin, GPIO.LOW)
+    def Blink(self):
+        while(self.blink):
+            self.On()  # make ledPin output HIGH level to turn on led
+            print('led turned on >>>')  # print information on terminal
+            time.sleep(1)  # Wait for 1 second
+            self.Off()  # make ledPin output LOW level to turn off led
+            print('led turned off <<<')
+            time.sleep(1)  # Wait for 1 second
+        if (self.on):
+            self.On()
+        else:
+            self.Off()
 
-def destroy():
-    GPIO.cleanup()                      # Release all GPIO
 
-if __name__ == '__main__':    # Program entrance
-    print ('Program is starting ... \n')
-    setup()
-    try:
-        loop()
-    except KeyboardInterrupt:   # Press ctrl-c to end the program.
-        destroy()
+#
+# ledPin = 12    # define ledPin
+#
+# def setup():
+#     GPIO.setmode(GPIO.BCM)       # use PHYSICAL GPIO Numbering
+#     GPIO.setup(ledPin, GPIO.OUT)   # set the ledPin to OUTPUT mode
+#     GPIO.output(ledPin, GPIO.LOW)  # make ledPin output LOW level
+#     print ('using pin%d'%ledPin)
+
+# def loop():
+#     while True:
+#         GPIO.output(ledPin, GPIO.HIGH)  # make ledPin output HIGH level to turn on led
+#         print ('led turned on >>>')     # print information on terminal
+#         time.sleep(1)                   # Wait for 1 second
+#         GPIO.output(ledPin, GPIO.LOW)   # make ledPin output LOW level to turn off led
+#         print ('led turned off <<<')
+#         time.sleep(1)                   # Wait for 1 second
+#
+# def destroy():
+#     GPIO.cleanup()                      # Release all GPIO
+#
+# if __name__ == '__main__':    # Program entrance
+#     print ('Program is starting ... \n')
+#     setup()
+#     try:
+#         loop()
+#     except KeyboardInterrupt:   # Press ctrl-c to end the program.
+#         destroy()
 

@@ -4,6 +4,7 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from time import sleep
 
+from Lamp import Lamp
 from Motor import Motor
 from PETO import PETO
 from Scale import Scale
@@ -28,10 +29,11 @@ if __name__ == '__main__':
     container_scale = Scale('container_swap.swp', 11, 10)
     container_scale.initWeight()
     motor = Motor(18)
-    peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor)
+    lamp = Lamp(12)
+    peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,lamp=lamp)
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
-    #petoSchudeler.normalRoutine()
+    petoSchudeler.normalRoutine()
     try:
         # grams = input('Enter amount of food (in grams): ')
         while True:

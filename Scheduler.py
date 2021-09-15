@@ -51,7 +51,7 @@ class Scheduler(IScheduler):
     def normalRoutine(self):
         schedule.every(1).minutes.do(check_for_new_schedule)
         schedule.every(4).seconds.do(should_I_Feed, self.peto)
-        schedule.every(4).minutes.do(feed, self.peto,30)
+        # schedule.every(4).minutes.do(feed, self.peto,30)
         while 1:
             schedule.run_pending()
             time.sleep(1)
@@ -59,4 +59,5 @@ class Scheduler(IScheduler):
         # schedule.every().day.at("10:30").do(job)
         pass
     def BootupRoutine(self):
+        pass
         # here we should try fetch info via Bluetooth from mobile phone in order to establish connection to local network

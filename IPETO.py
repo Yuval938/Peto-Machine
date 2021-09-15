@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 
+from ILamp import ILamp
 from IScale import IScale
 
 
 class IPETO(ABC):
     @abstractmethod
-    def __init__(self,plateScale:IScale,containerScale:IScale,motor):
+    def __init__(self,plateScale:IScale,containerScale:IScale,motor,lamp:ILamp):
         pass
 
     @abstractmethod
