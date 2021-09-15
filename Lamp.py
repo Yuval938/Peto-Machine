@@ -30,15 +30,14 @@ class Lamp(ILamp):
     def Blink(self):
         while(self.blink):
             self.On()  # make ledPin output HIGH level to turn on led
-            print('led turned on >>>')  # print information on terminal
-            time.sleep(0.5)  # Wait for 1 second
+            # print('led turned on >>>')  # print information on terminal
+            time.sleep(0.1)  # Wait for 1 second
             self.Off()  # make ledPin output LOW level to turn off led
-            print('led turned off <<<')
-            time.sleep(0.5)  # Wait for 1 second
+            # print('led turned off <<<')
+            time.sleep(0.1)  # Wait for 1 second
         # if (self.on):
         #     self.On()
         # else:
-        self.Off()
 
 
 #

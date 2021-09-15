@@ -47,5 +47,4 @@ class PETO(IPETO):
         self.foodOnPlate = num
         self.latest = num
         print(f"finished feeding! weight on plate is {num}")
-        time.sleep(5)
         self.lamp.On()
