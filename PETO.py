@@ -6,7 +6,7 @@ from Motor import IMotor
 
 class PETO(IPETO):
     def __init__(self, plateScale: IScale, containerScale: IScale, motor: IMotor,lamp:ILamp):
-        super().__init__(plateScale, containerScale, motor)
+        super().__init__(plateScale, containerScale, motor,lamp)
         self.plateScale = plateScale
         self.containerScale = containerScale
         self.motor = motor
