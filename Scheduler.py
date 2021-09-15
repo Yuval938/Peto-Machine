@@ -25,7 +25,7 @@ def check_for_remaining_food(peto):
     delta = peto.latest - val
     peto.latest = val
     print(f"food on plate is {val}")
-    if delta <=5:
+    if delta <=3:
         food_eaten = peto.foodOnPlate - peto.latest
         print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
