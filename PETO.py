@@ -38,7 +38,7 @@ class PETO(IPETO):
 
     def FeedPet(self, grams):  # I'm assuming the plate is empty.
         # self.lamp.On()
-        threading.Thread(target=self.lamp.Blink).start()
+        self.lamp.blink = True
         while (self.GetCurrentPlateStatus() < grams):
             self.motorOn()
             # self.GetCurrentPlateStatus()
