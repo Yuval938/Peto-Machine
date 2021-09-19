@@ -14,13 +14,14 @@ def check_for_new_schedule(peto):
         pass
     else:
         print("updating schedule now")
+        schedule.clear('schedule')
         peto.hash = new_hash
         for meal in schedule_list:
             if meal['repeat_daily']:
-                schedule.every().day.at(meal["time"]).do(feed, meal["amount"]).tag("normalRoutine", meal["id"])
+                schedule.every().day.at(meal["time"]).do(feed, meal["amount"]).tag("schedule", meal["id"])
             else:
                 schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"]).tag(
-                    "normalRoutine", meal["id"])  # will be deleted from schedule after one feed
+                    "schedule", meal["id"])  # will be deleted from schedule after one feed
             print("meal added")
 
 
@@ -73,8 +74,8 @@ class Scheduler(IScheduler):
         pass
 
     def normalRoutine(self):
-        schedule.every(30).seconds.do(check_for_new_schedule)
-        schedule.every(4).seconds.do(should_I_Feed, self.peto)
+        schedule.every(30).seconds.do(check_for_new_schedule).tag("normalRoutine")
+        schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
         while 1:
             schedule.run_pending()
