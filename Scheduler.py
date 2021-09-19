@@ -74,7 +74,7 @@ class Scheduler(IScheduler):
         pass
 
     def normalRoutine(self):
-        schedule.every(30).seconds.do(check_for_new_schedule).tag("normalRoutine")
+        schedule.every(30).seconds.do(check_for_new_schedule,self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
         while 1:
