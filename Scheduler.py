@@ -8,7 +8,7 @@ import time
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
     schedule_list = requests.get(f'http://192.168.1.39:5000/meal/pet/{peto.id}').json()
-    new_hash = hash(schedule_list)
+    new_hash = hash(frozenset(schedule_list))
     if new_hash == peto.scheduleHash:
         print("no new schedule found")
         pass
