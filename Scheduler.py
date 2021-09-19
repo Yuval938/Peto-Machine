@@ -18,7 +18,7 @@ def check_for_new_schedule(peto):
         peto.scheduleHash = new_hash
         for meal in schedule_list:
             if meal['repeat_daily']:
-                schedule.every().day.at(meal["time"]).do(feed, meal["amount"]).tag("schedule", meal["id"])
+                schedule.every().day.at(meal["time"]).do(feed,peto, meal["amount"]).tag("schedule", meal["id"])
             else:
                 schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"]).tag(
                     "schedule", meal["id"])  # will be deleted from schedule after one feed
