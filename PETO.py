@@ -17,6 +17,8 @@ class PETO(IPETO):
         self.foodOnPlate=0
         self.latest=0
         self.lamp.On()
+        self.id = 1 #should be determine by app\DB
+        self.scheduleHash = 0
 
     def GetCurrentPlateStatus(self):
         scale = self.plateScale.weight()
