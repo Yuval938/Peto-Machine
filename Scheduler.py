@@ -7,7 +7,7 @@ import time
 
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
-    schedule_list = requests.get(f'http://192.168.1.39:5000/meal/pet/{peto.id}').json()
+    schedule_list = requests.get(f'http://40.76.233.140:5000/meal/pet/{peto.id}').json()
     new_hash = hash(str(schedule_list))
     if new_hash == peto.scheduleHash:
         print("no new schedule found")
@@ -27,7 +27,7 @@ def check_for_new_schedule(peto):
 
 def should_I_Feed(peto):
     print("asking server if there's a feed request pending")
-    val = requests.get(f'http://192.168.1.39:5000/pets/feed/{peto.id}').text.strip('\n')
+    val = requests.get(f'http://40.76.233.140:5000/pets/feed/{peto.id}').text.strip('\n')
     if val != 'null':
         grams = int(val)
         peto.FeedPet(grams=grams)
@@ -57,7 +57,7 @@ def feedOnce(peto, grams, job_id):
     print("feeding pet")
     peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    requests.delete(f'http://192.168.1.39:5000/meal/{job_id}')
+    requests.delete(f'http://40.76.233.140:5000/meal/{job_id}')
     return schedule.CancelJob
 
 

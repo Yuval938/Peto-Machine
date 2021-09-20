@@ -36,13 +36,13 @@ if __name__ == '__main__':
     try:
         petoSchudeler.normalRoutine()
         # grams = input('Enter amount of food (in grams): ')
-        while True:
-            print('check')
-            val = requests.get('http://192.168.1.39:5000/pets/feed/1').text.strip('\n')
-            if val != 'null':
-                grams = int(val)
-                peto.FeedPet(grams=grams)
-            sleep(0.6)
+        # while True:
+        #     print('check')
+        #     val = requests.get('http://192.168.1.39:5000/pets/feed/1').text.strip('\n')
+        #     if val != 'null':
+        #         grams = int(val)
+        #         peto.FeedPet(grams=grams)
+        #     sleep(0.6)
     # if plate_scale.initWeight():
     #     while True:
     #         plate_scale.weight()
