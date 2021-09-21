@@ -43,14 +43,23 @@ def check_for_remaining_food(peto):
     print(f"food on plate is {latest}")
     if delta <= 3 and food_eaten > 2:
         food_eaten = peto.foodOnPlate - peto.latest
-        print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
+        requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
+            "title": "Meal Is Served!",
+            "body": f"{food_eaten} grams added to plate"
+        })
+        #add to DB
+        # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
 
 
 def feed(peto, grams):
     print("feeding pet")
-    peto.FeedPet(grams)
+    num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
+    requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
+        "title": "Meal Is Served!",
+        "body": f"{num} grams added to plate"
+    })
 
 
 def feedOnce(peto, grams, job_id):

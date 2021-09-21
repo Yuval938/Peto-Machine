@@ -50,3 +50,4 @@ class PETO(IPETO):
         self.latest = num
         print(f"finished feeding! weight on plate is {num}")
         self.lamp.On()
+        return num
