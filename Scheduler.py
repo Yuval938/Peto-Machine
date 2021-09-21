@@ -56,10 +56,11 @@ def feed(peto, grams):
     print("feeding pet")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
+    x = requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
+    print(x)
 
 
 def feedOnce(peto, grams, job_id):
