@@ -30,7 +30,11 @@ def should_I_Feed(peto):
     val = requests.get(f'http://40.76.233.140:5000/pets/feed/{peto.id}').text.strip('\n')
     if val != 'null':
         grams = int(val)
-        peto.FeedPet(grams=grams)
+        num = peto.FeedPet(grams=grams)
+        x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+            "title": "Meal Is Served!",
+            "body": f"{num} grams added to plate"
+        })
         schedule.every(1).minutes.do(check_for_remaining_food, peto)
 
 
@@ -67,6 +71,10 @@ def feedOnce(peto, grams, job_id):
     print("feeding pet")
     peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
+    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+        "title": "Meal Is Served!",
+        "body": f"{num} grams added to plate"
+    })
     requests.delete(f'http://40.76.233.140:5000/meal/{job_id}')
     return schedule.CancelJob
 
