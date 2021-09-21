@@ -43,7 +43,7 @@ def check_for_remaining_food(peto):
     print(f"food on plate is {latest}")
     if delta <= 3 and food_eaten > 2:
         food_eaten = peto.foodOnPlate - peto.latest
-        requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
+        requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{food_eaten} grams added to plate"
         })
@@ -56,7 +56,7 @@ def feed(peto, grams):
     print("feeding pet")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    x = requests.put(f'http://40.76.233.140:5000/push/{peto.pet_id}', data={
+    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
