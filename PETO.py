@@ -19,6 +19,7 @@ class PETO(IPETO):
         self.lamp.On()
         self.id = 1 #should be determine by app\DB
         self.scheduleHash = 0
+        self.petName = "Tokyo"
 
     def GetCurrentPlateStatus(self):
         scale = self.plateScale.weight()

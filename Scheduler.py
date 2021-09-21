@@ -48,8 +48,8 @@ def check_for_remaining_food(peto):
     if delta <= 3 and food_eaten > 2:
         food_eaten = peto.foodOnPlate - peto.latest
         requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
-            "title": "Meal Is Served!",
-            "body": f"{food_eaten} grams added to plate"
+            "title": "Finished Eating!",
+            "body": f"{peto.petName} ate {food_eaten} grams"
         })
         #add to DB
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
