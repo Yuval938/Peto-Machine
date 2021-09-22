@@ -59,7 +59,7 @@ def check_for_remaining_food(peto):
         # peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petStartedEating = datetime.now().time().replace(microsecond=0)
         # dog started eating - mark the time
-    if delta <= 3 and startedEating:
+    elif delta <= 3 and startedEating:
         food_eaten = peto.foodOnPlate - peto.latest  # amount of food on plate when started eating minus the current amount of food on plate = food eaten.
         # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petFinishedEating = datetime.now().time().replace(microsecond=0)
