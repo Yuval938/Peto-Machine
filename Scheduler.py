@@ -68,7 +68,7 @@ def check_for_remaining_food(peto):
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         # add to DB
-        requests.post(f'http://192.168.1.23:5000/meal/pet/{peto.id}',
+        requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
                           data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
 
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
