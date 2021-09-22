@@ -4,6 +4,7 @@ from ILamp import ILamp
 from IPETO import IPETO
 from IScale import IScale
 from Motor import IMotor
+from Meal import Meal
 import threading
 
 
@@ -20,6 +21,7 @@ class PETO(IPETO):
         self.id = 1 #should be determine by app\DB
         self.scheduleHash = 0
         self.petName = "Tokyo"
+        self.currentMeal=None  #SHOULD BE ONLY ONE IN ANY GIVEN TIME
 
     def GetCurrentPlateStatus(self):
         scale = self.plateScale.weight()

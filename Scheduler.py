@@ -3,6 +3,10 @@ from IPETO import IPETO
 import schedule
 import requests
 import time
+from datetime import datetime
+from Meal import Meal
+
+mealIDtoName = dict
 
 
 def check_for_new_schedule(peto):
@@ -18,9 +22,9 @@ def check_for_new_schedule(peto):
         peto.scheduleHash = new_hash
         for meal in schedule_list:
             if meal['repeat_daily']:
-                schedule.every().day.at(meal["time"]).do(feed,peto, meal["amount"]).tag("schedule", meal["id"])
+                schedule.every().day.at(meal["time"]).do(feed,peto, meal["amount"],meal["id"],meal["name"]).tag("schedule", meal["id"])
             else:
-                schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"]).tag(
+                schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"],meal["name"]).tag(
                     "schedule", meal["id"])  # will be deleted from schedule after one feed
             print("meal added")
 
@@ -31,6 +35,7 @@ def should_I_Feed(peto):
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
+        peto.currentMeal = Meal(name="instant Feed",amountGiven=grams)
         x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
@@ -40,23 +45,34 @@ def should_I_Feed(peto):
 
 def check_for_remaining_food(peto):
     print("checking remaining food on plate")
+    startedEating = False
     latest = peto.GetCurrentPlateStatus()
-    food_eaten = peto.foodOnPlate - latest
+    startOfMealDelta = peto.foodOnPlate - latest
     delta = peto.latest - latest
     peto.latest = latest
     print(f"food on plate is {latest}")
-    if delta <= 3 and food_eaten > 2:
-        food_eaten = peto.foodOnPlate - peto.latest
+    if startOfMealDelta > 2 and not startedEating:
+        startedEating = True
+        peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
+        #dog started eating - mark the time
+    if delta <= 3 and startedEating:
+        food_eaten = peto.foodOnPlate - peto.latest         #amount of food on plate when started eating minus the current amount of food on plate = food eaten.
+        peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
+        peto.currentMeal.amountEaten = food_eaten
         requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Finished Eating!",
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         #add to DB
+
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
 
 
-def feed(peto, grams):
+def feed(peto, grams,mealID,mealName):
+    peto.currentMeal.ID = mealID
+    peto.currentMeal.name = mealName
+    peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     print("feeding pet")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
@@ -67,15 +83,18 @@ def feed(peto, grams):
     print(x)
 
 
-def feedOnce(peto, grams, job_id):
+def feedOnce(peto, grams, mealID,mealName):
     print("feeding pet")
+    peto.currentMeal.ID = mealID
+    peto.currentMeal.name = mealName
+    peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
     x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
-    requests.delete(f'http://40.76.233.140:5000/meal/{job_id}')
+    requests.delete(f'http://40.76.233.140:5000/meal/{mealID}')
     return schedule.CancelJob
 
 
@@ -104,4 +123,4 @@ class Scheduler(IScheduler):
 
     def BootupRoutine(self):
         pass
-        # here we should try fetch info via Bluetooth from mobile phone in order to establish connection to local network
+        # we give server our serial code and wait for sync with mobile device
