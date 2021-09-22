@@ -68,8 +68,13 @@ def check_for_remaining_food(peto):
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         # add to DB
-        requests.post(f'http://40.76.233.140:5001/meal/pet/{peto.id}',
-                          data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
+        try:
+            x=requests.post(f'http://40.76.233.140:5001/meal/pet/{peto.id}',
+                              data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
+            print(x.text)
+        except Error as error:
+            print(error.msg)
+
 
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
