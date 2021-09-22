@@ -4,7 +4,7 @@ import schedule
 import requests
 import time
 from datetime import datetime
-
+import json
 from Meal import Meal
 
 mealIDtoName = dict
