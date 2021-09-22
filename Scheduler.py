@@ -146,6 +146,7 @@ class Scheduler(IScheduler):
                 print("found!")
                 self.peto.id = val
                 self.peto.Blink()
+                break
 
         pass
         # we give server our serial code and wait for sync with mobile device
