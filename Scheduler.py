@@ -12,7 +12,7 @@ mealIDtoName = dict
 
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
-    schedule_list = requests.get(f'http://40.76.233.140:5000/meal/pet/{peto.id}').json()
+    schedule_list = requests.get(f'http://40.76.233.140:5001/meal/pet/{peto.id}').json()
     new_hash = hash(str(schedule_list))
     if new_hash == peto.scheduleHash:
         print("no new schedule found")
@@ -33,12 +33,12 @@ def check_for_new_schedule(peto):
 
 def should_I_Feed(peto):
     print("asking server if there's a feed request pending")
-    val = requests.get(f'http://40.76.233.140:5000/pets/feed/{peto.id}').text.strip('\n')
+    val = requests.get(f'http://40.76.233.140:5001/pets/feed/{peto.id}').text.strip('\n')
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
         peto.currentMeal = Meal(name="instant Feed",mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
-        x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+        x = requests.put(f'http://40.76.233.140:5001/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
         })
@@ -63,12 +63,12 @@ def check_for_remaining_food(peto):
         # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petFinishedEating = datetime.now().time().replace(microsecond=0)
         peto.currentMeal.amountEaten = food_eaten
-        requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+        requests.put(f'http://40.76.233.140:5001/push/{peto.id}', data={
             "title": "Finished Eating!",
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         # add to DB
-        requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
+        requests.post(f'http://40.76.233.140:5001/meal/pet/{peto.id}',
                           data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
 
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
@@ -83,7 +83,7 @@ def feed(peto, grams, mealID, mealName):
     print("feeding pet")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+    x = requests.put(f'http://40.76.233.140:5001/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
@@ -99,11 +99,11 @@ def feedOnce(peto, grams, mealID, mealName):
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+    x = requests.put(f'http://40.76.233.140:5001/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
-    requests.delete(f'http://40.76.233.140:5000/meal/{mealID}')
+    requests.delete(f'http://40.76.233.140:5001/meal/{mealID}')
     return schedule.CancelJob
 
 
