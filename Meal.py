@@ -1,6 +1,7 @@
 class Meal():
-    def __init__(self, name=None, mealTime=None, petStartedEating=None, amountGiven=None, amountEaten=None,
+    def __init__(self,pet_id=None, name=None, mealTime=None, petStartedEating=None, amountGiven=None, amountEaten=None,
                  petFinishedEating=None, mealID=None):
+        self.pet_id = pet_id
         self.name = name
         self.mealID = mealID
         self.mealTime = mealTime
