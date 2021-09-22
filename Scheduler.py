@@ -37,7 +37,7 @@ def should_I_Feed(peto):
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
-        peto.currentMeal = Meal(pet_id=peto.id,name="instant Feed",mealTime=datetime.now(), amountGiven=grams)
+        peto.currentMeal = Meal(name="instant Feed",mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
         x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
@@ -56,18 +56,20 @@ def check_for_remaining_food(peto):
     if startOfMealDelta > 2 and not startedEating:
         startedEating = True
         # peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
-        peto.currentMeal.petStartedEating = datetime.now().time()
+        peto.currentMeal.petStartedEating = datetime.now().time().replace(microsecond=0)
         # dog started eating - mark the time
     if delta <= 3 and startedEating:
         food_eaten = peto.foodOnPlate - peto.latest  # amount of food on plate when started eating minus the current amount of food on plate = food eaten.
         # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
-        peto.currentMeal.petFinishedEating = datetime.now().time()
+        peto.currentMeal.petFinishedEating = datetime.now().time().replace(microsecond=0)
         peto.currentMeal.amountEaten = food_eaten
         requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Finished Eating!",
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         # add to DB
+        requests.post(f'http://192.168.1.23:5000/meal/pet/{peto.id}',
+                          data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
 
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
