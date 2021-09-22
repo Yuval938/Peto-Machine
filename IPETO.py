@@ -27,5 +27,11 @@ class IPETO(ABC):
     @abstractmethod
     def Blink(self):
         pass
+    @abstractmethod
+    def lightON(self):
+        pass
+    @abstractmethod
+    def lightOFF(self):
+        pass
 
 

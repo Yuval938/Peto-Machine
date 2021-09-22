@@ -60,3 +60,8 @@ class PETO(IPETO):
             self.lamp.blink = False
         else:
             self.lamp.blink = True
+    def lightOn(self):
+        self.lamp.On()
+
+    def lightOFF(self):
+        self.lamp.Off()
