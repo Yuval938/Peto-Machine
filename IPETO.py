@@ -24,5 +24,8 @@ class IPETO(ABC):
     @abstractmethod
     def motorOff(self):
         pass
+    @abstractmethod
+    def Blink(self):
+        pass
 
 

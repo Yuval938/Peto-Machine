@@ -55,3 +55,8 @@ class PETO(IPETO):
         print(f"finished feeding! weight on plate is {num}")
         self.lamp.On()
         return num - amountBeforeFeeding
+    def Blink(self):
+        if (self.lamp.blink):
+            self.lamp.blink = False
+        else:
+            self.lamp.blink = True

@@ -34,6 +34,7 @@ if __name__ == '__main__':
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
     try:
+        petoSchudeler.bootupRoutine()
         petoSchudeler.normalRoutine()
         # grams = input('Enter amount of food (in grams): ')
         # while True:

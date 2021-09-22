@@ -136,6 +136,16 @@ class Scheduler(IScheduler):
         # schedule.every().day.at("10:30").do(job)
         pass
 
-    def BootupRoutine(self):
+    def bootupRoutine(self):
+        while True:
+            self.peto.Blink()
+            print("finding pair")
+            time.sleep(10)
+            val = 1
+            if(val):
+                print("found!")
+                self.peto.id = val
+                self.peto.Blink()
+
         pass
         # we give server our serial code and wait for sync with mobile device
