@@ -3,7 +3,6 @@ class Meal():
                  petFinishedEating=None, mealID=None):
         self.pet_id = pet_id
         self.name = name
-        self.mealID = mealID
         self.mealTime = mealTime
         self.petStartedEating = petStartedEating
         self.amountGiven = amountGiven
