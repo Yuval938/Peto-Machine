@@ -82,7 +82,7 @@ def check_for_remaining_food(peto):
 
 
 def feed(peto, grams, mealID, mealName):
-    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now(),amountGiven=grams)
+    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(),amountGiven=grams)
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
@@ -98,7 +98,7 @@ def feed(peto, grams, mealID, mealName):
 
 def feedOnce(peto, grams, mealID, mealName):
     print("feeding pet")
-    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now(),amountGiven=grams)
+    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(),amountGiven=grams)
     #
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
