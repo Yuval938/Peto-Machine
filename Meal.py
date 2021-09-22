@@ -7,3 +7,4 @@ class Meal():
             self.amountGiven = amountGiven
             self.amountEaten = amountEaten
             self.petFinishedEating = petFinishedEating
+            self.startedEating = False

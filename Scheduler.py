@@ -48,18 +48,17 @@ def should_I_Feed(peto):
 
 def check_for_remaining_food(peto):
     print("checking remaining food on plate")
-    startedEating = False
     latest = peto.GetCurrentPlateStatus()
     startOfMealDelta = peto.foodOnPlate - latest
     delta = peto.latest - latest
     peto.latest = latest
     print(f"food on plate is {latest}")
-    if startOfMealDelta > 2 and not startedEating:
-        startedEating = True
+    if startOfMealDelta > 2 and not peto.currentMeal.startedEating:
+        peto.currentMeal.startedEating = True
         # peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petStartedEating = datetime.now().time().replace(microsecond=0)
         # dog started eating - mark the time
-    elif delta <= 3 and startedEating:
+    elif delta <= 3 and peto.currentMeal.startedEating:
         food_eaten = peto.foodOnPlate - peto.latest  # amount of food on plate when started eating minus the current amount of food on plate = food eaten.
         # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petFinishedEating = datetime.now().time().replace(microsecond=0)
@@ -68,6 +67,7 @@ def check_for_remaining_food(peto):
             "title": "Finished Eating!",
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
+        peto.currentMeal.startedEating = False
         # add to DB
         try:
             x=requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
