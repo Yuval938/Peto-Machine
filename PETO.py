@@ -44,6 +44,7 @@ class PETO(IPETO):
     def FeedPet(self, grams):  # I'm assuming the plate is empty.
         # self.lamp.On()
         self.lamp.blink = True
+        amountBeforeFeeding = self.GetCurrentPlateStatus()
         while (self.GetCurrentPlateStatus() < grams):
             self.motorOn()
             # self.GetCurrentPlateStatus()
@@ -53,4 +54,4 @@ class PETO(IPETO):
         self.latest = num
         print(f"finished feeding! weight on plate is {num}")
         self.lamp.On()
-        return num
+        return num - amountBeforeFeeding

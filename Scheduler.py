@@ -37,7 +37,7 @@ def should_I_Feed(peto):
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
-        peto.currentMeal = Meal(name="instant Feed", amountGiven=grams)
+        peto.currentMeal = Meal(pet_id=peto.id,name="instant Feed",mealTime=datetime.now(), amountGiven=grams)
         x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
@@ -55,11 +55,13 @@ def check_for_remaining_food(peto):
     print(f"food on plate is {latest}")
     if startOfMealDelta > 2 and not startedEating:
         startedEating = True
-        peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
+        # peto.currentMeal.petStartedEating = datetime.now().strftime("%H:%M:%S")
+        peto.currentMeal.petStartedEating = datetime.now().time()
         # dog started eating - mark the time
     if delta <= 3 and startedEating:
         food_eaten = peto.foodOnPlate - peto.latest  # amount of food on plate when started eating minus the current amount of food on plate = food eaten.
-        peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
+        # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
+        peto.currentMeal.petFinishedEating = datetime.now().time()
         peto.currentMeal.amountEaten = food_eaten
         requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Finished Eating!",
@@ -72,7 +74,7 @@ def check_for_remaining_food(peto):
 
 
 def feed(peto, grams, mealID, mealName):
-    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now())
+    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now(),amountGiven=grams)
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
@@ -88,7 +90,7 @@ def feed(peto, grams, mealID, mealName):
 
 def feedOnce(peto, grams, mealID, mealName):
     print("feeding pet")
-    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now())
+    peto.currentMeal = Meal(pet_id=peto.id, name=mealName, mealTime=datetime.now(),amountGiven=grams)
     #
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
