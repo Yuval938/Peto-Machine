@@ -42,7 +42,8 @@ def should_I_Feed(peto):
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
         })
-        schedule.every(1).minutes.do(check_for_remaining_food, peto)
+        schedule.every(15).seconds.do(check_for_remaining_food, peto)
+        # schedule.every(1).minutes.do(check_for_remaining_food, peto)
 
 
 def check_for_remaining_food(peto):
