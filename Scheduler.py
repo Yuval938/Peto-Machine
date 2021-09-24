@@ -9,6 +9,9 @@ from Meal import Meal
 
 mealIDtoName = dict
 
+def container_status(peto):
+    print(peto.GetCurrentContainer())
+
 
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
@@ -127,6 +130,7 @@ class Scheduler(IScheduler):
 
     def normalRoutine(self):
         self.peto.lightON()
+        schedule.every(5).seconds.do(container_status,self.peto).tag("normalRoutine")
         schedule.every(30).seconds.do(check_for_new_schedule, self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
