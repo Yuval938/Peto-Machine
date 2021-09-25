@@ -18,7 +18,7 @@ class Scale(IScale):
     def weight(self):
         WeightInFloat = self.hx.get_weight_mean(20)
         print(WeightInFloat, 'g')
-        return int(WeightInFloat) - 16
+        return int(WeightInFloat) - 10
         pass
 
     def initWeight(self):
