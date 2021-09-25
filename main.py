@@ -31,6 +31,9 @@ if __name__ == '__main__':
     motor = Motor(18)
     lamp = Lamp(12)
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,lamp=lamp)
+    for i in range(10):
+        peto.motorOn()
+    peto.motorOff()
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
     try:
