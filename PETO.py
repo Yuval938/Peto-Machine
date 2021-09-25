@@ -26,7 +26,7 @@ class PETO(IPETO):
     def GetCurrentPlateStatus(self):
         scale = self.plateScale.weight()
         # print(f"scale on plate is {scale} ")
-        return scale#self.plateScale.weight()
+        return scale -10#self.plateScale.weight()
 
     def GetCurrentContainer(self):
         scale = self.containerScale.weight()
