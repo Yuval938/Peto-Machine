@@ -24,16 +24,13 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    plate_scale = Scale('swap_file.swp', 21, 20)
+    plate_scale = Scale('swap_file.swp', 11, 10)
     plate_scale.initWeight()
-    container_scale = Scale('container_swap.swp', 11, 10)
+    container_scale = Scale('container_swap.swp', 21, 20)
     container_scale.initWeight()
     motor = Motor(18)
     lamp = Lamp(12)
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,lamp=lamp)
-    for i in range(10):
-        peto.motorOn()
-    peto.motorOff()
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
     try:
