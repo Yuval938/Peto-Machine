@@ -24,9 +24,9 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    plate_scale = Scale('swap_file.swp', 11, 10)
+    plate_scale = Scale('newscale.swp', 11, 10)
     plate_scale.initWeight()
-    container_scale = Scale('container_swap.swp', 21, 20)
+    container_scale = Scale('swap_file.swp', 21, 20)
     container_scale.initWeight()
     motor = Motor(18)
     lamp = Lamp(12)
