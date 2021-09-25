@@ -10,7 +10,9 @@ from Meal import Meal
 mealIDtoName = dict
 
 def container_status(peto):
-    print(peto.GetCurrentContainer())
+    # print(peto.GetCurrentContainer())
+    print(peto.GetCurrentPlateStatus())
+
 
 
 def check_for_new_schedule(peto):
