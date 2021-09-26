@@ -147,6 +147,7 @@ class Scheduler(IScheduler):
         while True:
             self.peto.Blink()
             print("finding pair")
+            time.sleep(3)
             try:
                 result = requests.get(f'http://40.76.233.140:5000/pair/{self.peto.machine_id}').json()['pet_id']
                 if result:
