@@ -9,31 +9,34 @@ from Meal import Meal
 
 mealIDtoName = dict
 
+
 def container_status(peto):
     print(peto.GetCurrentContainer())
     print(peto.GetCurrentPlateStatus())
 
 
-
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
-    schedule_list = requests.get(f'http://40.76.233.140:5000/meal/pet/{peto.id}').json()
-    new_hash = hash(str(schedule_list))
-    if new_hash == peto.scheduleHash:
-        print("no new schedule found")
-        pass
-    else:
-        print("updating schedule now")
-        schedule.clear('schedule')
-        peto.scheduleHash = new_hash
-        for meal in schedule_list:
-            if meal['repeat_daily']:
-                schedule.every().day.at(meal["time"]).do(feed, peto, meal["amount"], meal["id"], meal["name"]).tag(
-                    "schedule", meal["id"])
-            else:
-                schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"], meal["name"]).tag(
-                    "schedule", meal["id"])  # will be deleted from schedule after one feed
-            print("meal added")
+    response = requests.get(f'http://40.76.233.140:5000/meal/pet/{peto.id}')
+    if response.status_code == 200:
+        schedule_list = response.json()
+        new_hash = hash(str(schedule_list))
+        if new_hash == peto.scheduleHash:
+            print("no new schedule found")
+            pass
+        else:
+            print("updating schedule now")
+            schedule.clear('schedule')
+            peto.scheduleHash = new_hash
+            for meal in schedule_list:
+                if meal['repeat_daily']:
+                    schedule.every().day.at(meal["time"]).do(feed, peto, meal["amount"], meal["id"], meal["name"]).tag(
+                        "schedule", meal["id"])
+                else:
+                    schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"],
+                                                             meal["name"]).tag(
+                        "schedule", meal["id"])  # will be deleted from schedule after one feed
+                print("meal added")
 
 
 def should_I_Feed(peto):
@@ -42,7 +45,7 @@ def should_I_Feed(peto):
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
-        peto.currentMeal = Meal(name="instant Feed",mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
+        peto.currentMeal = Meal(name="instant Feed", mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
         x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
@@ -75,19 +78,18 @@ def check_for_remaining_food(peto):
         peto.currentMeal.startedEating = False
         # add to DB
         try:
-            x=requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
+            x = requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
                               data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
             print(x.text)
         except Error as error:
             print(error.msg)
-
 
         # print(f"finished meal sending lunch status amount dog eat :{food_eaten}")
         return schedule.CancelJob
 
 
 def feed(peto, grams, mealID, mealName):
-    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(),amountGiven=grams)
+    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(), amountGiven=grams)
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
@@ -103,7 +105,7 @@ def feed(peto, grams, mealID, mealName):
 
 def feedOnce(peto, grams, mealID, mealName):
     print("feeding pet")
-    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(),amountGiven=grams)
+    peto.currentMeal = Meal(name=mealName, mealTime=datetime.now(), amountGiven=grams)
     #
     # peto.currentMeal.ID = mealID
     # peto.currentMeal.name = mealName
@@ -132,7 +134,7 @@ class Scheduler(IScheduler):
 
     def normalRoutine(self):
         self.peto.lightON()
-        schedule.every(5).seconds.do(container_status,self.peto).tag("normalRoutine")
+        schedule.every(5).seconds.do(container_status, self.peto).tag("normalRoutine")
         schedule.every(30).seconds.do(check_for_new_schedule, self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
@@ -152,8 +154,8 @@ class Scheduler(IScheduler):
                 result = requests.get(f'http://40.76.233.140:5000/pair/{self.peto.machine_id}').json()['pet_id']
                 if result:
                     self.peto.id = result
-                    #lets find pet's name
-                    self.peto.petName =requests.get(f'http://40.76.233.140:5000/pets/{result}').json()['name']
+                    # lets find pet's name
+                    self.peto.petName = requests.get(f'http://40.76.233.140:5000/pets/{result}').json()['name']
                     print("found!")
                     self.peto.Blink()
                     break
