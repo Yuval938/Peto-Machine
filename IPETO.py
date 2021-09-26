@@ -7,7 +7,7 @@ from IScale import IScale
 class IPETO(ABC):
     @abstractmethod
     def __init__(self, plateScale: IScale, containerScale: IScale, motor, lamp: ILamp):
-        self.machine_id = 55555
+        self.machine_id = 54321
         pass
 
     @abstractmethod
