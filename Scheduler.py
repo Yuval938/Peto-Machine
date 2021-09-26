@@ -147,13 +147,18 @@ class Scheduler(IScheduler):
         while True:
             self.peto.Blink()
             print("finding pair")
-            time.sleep(10)
-            val = 1
-            if(val):
-                print("found!")
-                self.peto.id = val
-                self.peto.Blink()
-                break
+            try:
+                result = requests.get(f'http://40.76.233.140:5000/pair/{self.peto.machine_id}').json()['pet_id']
+                if result:
+                    self.peto.id = result
+                    #lets find pet's name
+                    self.peto.petName =requests.get(f'http://40.76.233.140:5000/pets/{result}').json()['name']
+                    print("found!")
+                    self.peto.Blink()
+                    break
+
+            except:
+                print("failed")
 
         pass
         # we give server our serial code and wait for sync with mobile device

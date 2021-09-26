@@ -9,29 +9,30 @@ import threading
 
 
 class PETO(IPETO):
-    def __init__(self, plateScale: IScale, containerScale: IScale, motor: IMotor,lamp:ILamp):
-        super().__init__(plateScale, containerScale, motor,lamp)
+    def __init__(self, plateScale: IScale, containerScale: IScale, motor: IMotor, lamp: ILamp):
+        super().__init__(plateScale, containerScale, motor, lamp)
+        self.id = None  # should be determine by app\DB
+       # self.machine_id = 54321  # each machine gets its own id when manufactured
+        self.petName = None
         self.plateScale = plateScale
         self.containerScale = containerScale
         self.motor = motor
         self.lamp = lamp
-        self.foodOnPlate=0
-        self.latest=0
+        self.foodOnPlate = 0
+        self.latest = 0
         self.lamp.On()
-        self.id = 1 #should be determine by app\DB
         self.scheduleHash = 0
-        self.petName = "Tokyo"
-        self.currentMeal=None  #SHOULD BE ONLY ONE IN ANY GIVEN TIME
+        self.currentMeal = None  # SHOULD BE ONLY ONE IN ANY GIVEN TIME
 
     def GetCurrentPlateStatus(self):
         scale = self.plateScale.weight()
         # print(f"scale on plate is {scale} ")
-        return scale #self.plateScale.weight()
+        return scale  # self.plateScale.weight()
 
     def GetCurrentContainer(self):
         scale = self.containerScale.weight()
         # print(f"scale on Container is {scale} ")
-        return scale#self.containerScale.weight()
+        return scale  # self.containerScale.weight()
 
     def motorOn(self):
         self.motor.motorOn()
@@ -55,11 +56,13 @@ class PETO(IPETO):
         print(f"finished feeding! weight on plate is {num}")
         self.lamp.On()
         return num - amountBeforeFeeding
+
     def Blink(self):
         if (self.lamp.blink):
             self.lamp.blink = False
         else:
             self.lamp.blink = True
+
     def lightON(self):
         self.lamp.On()
 
