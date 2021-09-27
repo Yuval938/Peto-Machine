@@ -11,6 +11,17 @@ mealIDtoName = dict
 
 
 def container_status(peto):
+    val = peto.GetCurrentContainer()
+    if val < 100:
+        val = 0
+    elif val > 1000:
+        val = 1000
+    percentage = val / 1000
+    requests.post(f'http://40.76.233.140:5000/container/{peto.id}', data={
+        "container": f"{val}"
+    })
+    return percentage
+
     print(peto.GetCurrentContainer())
     print(peto.GetCurrentPlateStatus())
 
