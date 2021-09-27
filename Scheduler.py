@@ -17,6 +17,7 @@ def container_status(peto):
     elif val > 1000:
         val = 1000
     percentage = val / 1000
+    print(percentage)
     response = requests.post(f'http://40.76.233.140:5000/container/{peto.id}', data={
         "container":percentage
     })
