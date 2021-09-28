@@ -141,8 +141,8 @@ class Scheduler(IScheduler):
         self.config = config
         globals()['serverURL'] = config['DEFAULT']['server_url']
         globals()['serverPORT'] = config['DEFAULT']['server_port']
-        globals()['min_scale_val'] = config['SCALE']['min_scale_val']
-        globals()['max_scale_val'] = config['SCALE']['max_scale_val']
+        globals()['min_scale_val'] = config.getint('SCALE','min_scale_val')
+        globals()['max_scale_val'] = config.getint('SCALE','max_scale_val')
 
     def remove_from_schedule(self, job):
         schedule.cancel_job(job)
