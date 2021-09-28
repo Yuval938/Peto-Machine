@@ -19,16 +19,17 @@ if __name__ == '__main__':
     container_scale.initWeight()
     motor = Motor(18)
     lamp = Lamp(12)
-    peto = PETO(int(config['PETO']['machine_id']), plateScale=plate_scale, containerScale=container_scale, motor=motor,
-                lamp=lamp)
+    peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,
+                lamp=lamp, machine_id=config.getint('PETO', 'machine_id'))
     # if everything is ok,we should run the normal rotuine
-    petoSchudeler = Scheduler(peto=peto,config=config)
+    petoSchudeler = Scheduler(peto=peto, config=config)
     try:
         petoSchudeler.bootupRoutine()
         petoSchudeler.normalRoutine()
     except (KeyboardInterrupt, SystemExit):
         print('Bye :)')
     finally:
+        peto.lamp.MachineOn = False
         GPIO.cleanup()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
