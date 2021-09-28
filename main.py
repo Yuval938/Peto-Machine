@@ -1,18 +1,13 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-from time import sleep
-
 from Lamp import Lamp
 from Motor import Motor
+import configparser
 from PETO import PETO
 from Scale import Scale
 import RPi.GPIO as GPIO  # import GPIO
 import requests
 from IScheduler import IScheduler
 from Scheduler import Scheduler
-import configparser
+
 
 GPIO.setmode(GPIO.BCM)
 
