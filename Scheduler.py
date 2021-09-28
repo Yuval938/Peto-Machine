@@ -7,11 +7,11 @@ from datetime import datetime
 import json
 from Meal import Meal
 
+serverURL: int = None
+serverPORT: int = None
+min_scale_val: int = None
+max_scale_val: int = None
 
-serverURL = None
-serverPORT = None
-min_scale_val = None
-max_scale_val = None
 
 def container_status(peto):
     val = peto.GetCurrentContainer()
@@ -21,7 +21,7 @@ def container_status(peto):
         val = max_scale_val
     percentage = val / max_scale_val
     response = requests.post(f'{serverURL}:{serverPORT}/pets/feed/{peto.id}', data={
-        "container":percentage
+        "container": percentage
     })
     return percentage
 
@@ -32,7 +32,7 @@ def container_status(peto):
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
     response = requests.get(f'{serverURL}:{serverPORT}/meal/pet/{peto.id}')
-    if response.status_code == config['DEFAULT']['ok']:
+    if response.status_code == 200:
         schedule_list = response.json()
         new_hash = hash(str(schedule_list))
         if new_hash == peto.scheduleHash:
@@ -135,7 +135,7 @@ def feedOnce(peto, grams, mealID, mealName):
 
 
 class Scheduler(IScheduler):
-    def __init__(self, peto: IPETO,config):
+    def __init__(self, peto: IPETO, config):
         super().__init__(peto)
         self.peto = peto
         self.config = config
