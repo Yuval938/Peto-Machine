@@ -10,8 +10,8 @@ from main import config
 
 serverURL = config['DEFAULT']['server_url']
 serverPORT = config['DEFAULT']['server_port']
-min_scale_val = config['DEFAULT']['min_scale_val']
-max_scale_val = config['DEFAULT']['max_scale_val']
+min_scale_val = config['SCALE']['min_scale_val']
+max_scale_val = config['SCALE']['max_scale_val']
 
 
 

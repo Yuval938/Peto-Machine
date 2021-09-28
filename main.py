@@ -14,13 +14,13 @@ from Scheduler import Scheduler
 GPIO.setmode(GPIO.BCM)
 
 if __name__ == '__main__':
-    plate_scale = Scale(config['DEFAULT']['plate_scale_cfg'], 11, 10)
+    plate_scale = Scale(config['SCALE']['plate_scale_cfg'], 11, 10)
     plate_scale.initWeight()
-    container_scale = Scale(config['DEFAULT']['container_scale_cfg'], 21, 20)
+    container_scale = Scale(config['SCALE']['container_scale_cfg'], 21, 20)
     container_scale.initWeight()
     motor = Motor(18)
     lamp = Lamp(12)
-    peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,lamp=lamp)
+    peto = PETO(int(config['PETO']['machine_id']),plateScale=plate_scale, containerScale=container_scale, motor=motor,lamp=lamp)
     #if everything is ok,we should run the normal rotuine
     petoSchudeler = Scheduler(peto=peto)
     try:

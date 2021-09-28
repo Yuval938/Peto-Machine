@@ -9,8 +9,8 @@ import threading
 
 
 class PETO(IPETO):
-    def __init__(self,plateScale: IScale, containerScale: IScale, motor: IMotor, lamp: ILamp):
-        super().__init__(plateScale, containerScale, motor, lamp)
+    def __init__(self,machine_id:int ,plateScale: IScale, containerScale: IScale, motor: IMotor, lamp: ILamp):
+        super().__init__(machine_id,plateScale, containerScale, motor, lamp)
         self.id = None  # should be determine by app\DB
        # self.machine_id = 54321  # each machine gets its own id when manufactured
         self.petName = None
