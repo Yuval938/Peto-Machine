@@ -20,9 +20,9 @@ if __name__ == '__main__':
     motor = Motor(18)
     lamp = Lamp(12)
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,
-                lamp=lamp, machine_id=config.getint('PETO', 'machine_id'))
+                lamp=lamp,machine_id = int(config['PETO']['machine_id']))
     # if everything is ok,we should run the normal rotuine
-    petoSchudeler = Scheduler(peto=peto, config=config)
+    petoSchudeler = Scheduler(peto=peto,config=config)
     try:
         petoSchudeler.bootupRoutine()
         petoSchudeler.normalRoutine()
