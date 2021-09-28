@@ -6,14 +6,12 @@ import time
 from datetime import datetime
 import json
 from Meal import Meal
-from main import config
-
-serverURL = config['DEFAULT']['server_url']
-serverPORT = config['DEFAULT']['server_port']
-min_scale_val = config['SCALE']['min_scale_val']
-max_scale_val = config['SCALE']['max_scale_val']
 
 
+serverURL = None
+serverPORT = None
+min_scale_val = None
+max_scale_val = None
 
 def container_status(peto):
     val = peto.GetCurrentContainer()
@@ -137,9 +135,14 @@ def feedOnce(peto, grams, mealID, mealName):
 
 
 class Scheduler(IScheduler):
-    def __init__(self, peto: IPETO):
+    def __init__(self, peto: IPETO,config):
         super().__init__(peto)
         self.peto = peto
+        self.config = config
+        globals()['serverURL'] = config['DEFAULT']['server_url']
+        globals()['serverPORT'] = config['DEFAULT']['server_port']
+        globals()['min_scale_val'] = config['SCALE']['min_scale_val']
+        globals()['max_scale_val'] = config['SCALE']['max_scale_val']
 
     def remove_from_schedule(self, job):
         schedule.cancel_job(job)
