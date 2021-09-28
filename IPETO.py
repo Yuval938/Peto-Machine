@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 
 from ILamp import ILamp
 from IScale import IScale
+from main import config
 
 
 class IPETO(ABC):
     @abstractmethod
-    def __init__(self, plateScale: IScale, containerScale: IScale, motor, lamp: ILamp):
-        self.machine_id = 54321
+    def __init__(self,plateScale: IScale, containerScale: IScale, motor, lamp: ILamp):
+        self.machine_id = config['DEFAULT']['machine_id']
         pass
 
     @abstractmethod

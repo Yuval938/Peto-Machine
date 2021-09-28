@@ -12,6 +12,7 @@ import RPi.GPIO as GPIO  # import GPIO
 import requests
 from IScheduler import IScheduler
 from Scheduler import Scheduler
+import configparser
 
 GPIO.setmode(GPIO.BCM)
 
@@ -24,6 +25,8 @@ def print_hi(name):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('cfg.ini')
     plate_scale = Scale('p.swp', 11, 10)
     plate_scale.initWeight()
     container_scale = Scale('c4.swp', 21, 20)

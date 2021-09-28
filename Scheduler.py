@@ -6,18 +6,23 @@ import time
 from datetime import datetime
 import json
 from Meal import Meal
+from main import config
 
-mealIDtoName = dict
+serverURL = config['DEFAULT']['server_url']
+serverPORT = config['DEFAULT']['server_port']
+min_scale_val = config['DEFAULT']['min_scale_val']
+max_scale_val = config['DEFAULT']['max_scale_val']
+
 
 
 def container_status(peto):
     val = peto.GetCurrentContainer()
-    if val < 100:
+    if val < min_scale_val:
         val = 0
-    elif val > 1000:
-        val = 1000
-    percentage = val / 1000
-    response = requests.post(f'http://40.76.233.140:5000/pets/feed/{peto.id}', data={
+    elif val > max_scale_val:
+        val = max_scale_val
+    percentage = val / max_scale_val
+    response = requests.post(f'{serverURL}:{serverPORT}/pets/feed/{peto.id}', data={
         "container":percentage
     })
     return percentage
@@ -28,8 +33,8 @@ def container_status(peto):
 
 def check_for_new_schedule(peto):
     print("asking server if there is a new feeding schedule")
-    response = requests.get(f'http://40.76.233.140:5000/meal/pet/{peto.id}')
-    if response.status_code == 200:
+    response = requests.get(f'{serverURL}:{serverPORT}/meal/pet/{peto.id}')
+    if response.status_code == config['DEFAULT']['ok']:
         schedule_list = response.json()
         new_hash = hash(str(schedule_list))
         if new_hash == peto.scheduleHash:
@@ -52,12 +57,12 @@ def check_for_new_schedule(peto):
 
 def should_I_Feed(peto):
     print("asking server if there's a feed request pending")
-    val = requests.get(f'http://40.76.233.140:5000/pets/feed/{peto.id}').text.strip('\n')
+    val = requests.get(f'{serverURL}:{serverPORT}/pets/feed/{peto.id}').text.strip('\n')
     if val != 'null':
         grams = int(val)
         num = peto.FeedPet(grams=grams)
         peto.currentMeal = Meal(name="instant Feed", mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
-        x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+        x = requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
             "title": "Meal Is Served!",
             "body": f"{num} grams added to plate"
         })
@@ -82,14 +87,14 @@ def check_for_remaining_food(peto):
         # peto.currentMeal.petFinishedEating = datetime.now().strftime("%H:%M:%S")
         peto.currentMeal.petFinishedEating = datetime.now().time().replace(microsecond=0)
         peto.currentMeal.amountEaten = food_eaten
-        requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+        requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
             "title": "Finished Eating!",
             "body": f"{peto.petName} ate {food_eaten} grams"
         })
         peto.currentMeal.startedEating = False
         # add to DB
         try:
-            x = requests.post(f'http://40.76.233.140:5000/meal/pet/{peto.id}',
+            x = requests.post(f'{serverURL}:{serverPORT}/meal/pet/{peto.id}',
                               data=json.loads(json.dumps(peto.currentMeal.__dict__, default=str)))
             print(x.text)
         except Error as error:
@@ -107,7 +112,7 @@ def feed(peto, grams, mealID, mealName):
     print("feeding pet")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+    x = requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
@@ -123,11 +128,11 @@ def feedOnce(peto, grams, mealID, mealName):
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     num = peto.FeedPet(grams)
     schedule.every(1).minutes.do(check_for_remaining_food, peto)
-    x = requests.put(f'http://40.76.233.140:5000/push/{peto.id}', data={
+    x = requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
     })
-    requests.delete(f'http://40.76.233.140:5000/meal/{mealID}')
+    requests.delete(f'{serverURL}:{serverPORT}/meal/{mealID}')
     return schedule.CancelJob
 
 
@@ -162,11 +167,11 @@ class Scheduler(IScheduler):
             print("finding pair")
             time.sleep(3)
             try:
-                result = requests.get(f'http://40.76.233.140:5000/pair/{self.peto.machine_id}').json()['pet_id']
+                result = requests.get(f'{serverURL}:{serverPORT}/pair/{self.peto.machine_id}').json()['pet_id']
                 if result:
                     self.peto.id = result
                     # lets find pet's name
-                    self.peto.petName = requests.get(f'http://40.76.233.140:5000/pets/{result}').json()['name']
+                    self.peto.petName = requests.get(f'{serverURL}:{serverPORT}/pets/{result}').json()['name']
                     print("found!")
                     self.peto.Blink()
                     break
