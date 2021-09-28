@@ -16,20 +16,12 @@ import configparser
 
 GPIO.setmode(GPIO.BCM)
 
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read('cfg.ini')
-    plate_scale = Scale('p.swp', 11, 10)
+    plate_scale = Scale(config['DEFAULT']['plate_scale_cfg'], 11, 10)
     plate_scale.initWeight()
-    container_scale = Scale('c4.swp', 21, 20)
+    container_scale = Scale(config['DEFAULT']['container_scale_cfg'], 21, 20)
     container_scale.initWeight()
     motor = Motor(18)
     lamp = Lamp(12)
@@ -39,22 +31,8 @@ if __name__ == '__main__':
     try:
         petoSchudeler.bootupRoutine()
         petoSchudeler.normalRoutine()
-        # grams = input('Enter amount of food (in grams): ')
-        # while True:
-        #     print('check')
-        #     val = requests.get('http://192.168.1.39:5000/pets/feed/1').text.strip('\n')
-        #     if val != 'null':
-        #         grams = int(val)
-        #         peto.FeedPet(grams=grams)
-        #     sleep(0.6)
-    # if plate_scale.initWeight():
-    #     while True:
-    #         plate_scale.weight()
-    # print_hi('PyCharm')
-
     except (KeyboardInterrupt, SystemExit):
         print('Bye :)')
-
     finally:
         GPIO.cleanup()
 
