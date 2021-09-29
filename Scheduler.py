@@ -13,6 +13,28 @@ min_scale_val: int = None
 max_scale_val: int = None
 
 
+def bootupRoutine(self,peto):
+    peto.Blink()
+    while True:
+        print("finding pair")
+        time.sleep(3)
+        try:
+            result = requests.get(f'{serverURL}:{serverPORT}/pair/{peto.machine_id}').json()['pet_id']
+            print(result)
+            if result:
+                peto.id = result
+                # lets find pet's name
+                peto.petName = requests.get(f'{serverURL}:{serverPORT}/pets/{result}').json()['name']
+                print("found!")
+                peto.Blink()
+                break
+
+        except:
+            print("failed")
+
+    return schedule.CancelJob
+
+
 def container_status(peto):
     val = peto.GetCurrentContainer()
     if val < min_scale_val:
@@ -56,7 +78,12 @@ def check_for_new_schedule(peto):
 def should_I_Feed(peto):
     print("asking server if there's a feed request pending")
     val = requests.get(f'{serverURL}:{serverPORT}/pets/feed/{peto.id}').text.strip('\n')
-    if val != 'null':
+    if val == 'null':
+        pass
+    elif int(val) == 0:
+        schedule.clear('normalRoutine')
+        #cancel jobs
+    else:
         grams = int(val)
         num = peto.FeedPet(grams=grams)
         peto.currentMeal = Meal(name="instant Feed", mealTime=datetime.now().replace(microsecond=0), amountGiven=grams)
@@ -66,6 +93,7 @@ def should_I_Feed(peto):
         })
         # schedule.every(15).seconds.do(check_for_remaining_food, peto)
         schedule.every(1).minutes.do(check_for_remaining_food, peto)
+
 
 
 def check_for_remaining_food(peto):
@@ -153,35 +181,36 @@ class Scheduler(IScheduler):
 
     def normalRoutine(self):
         self.peto.lightON()
+        schedule.every(1).seconds.do(bootupRoutine,self.peto).tag("normalRoutine")
         schedule.every(5).seconds.do(container_status, self.peto).tag("normalRoutine") #should be 10 min
         schedule.every(30).seconds.do(check_for_new_schedule, self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
-        while 1:
+        while len(schedule.jobs)!=0:
             schedule.run_pending()
             time.sleep(1)
         # schedule.every().hour.do(job)
         # schedule.every().day.at("10:30").do(job)
         pass
         # we give server our Machine_id and wait for sync with a specific app
-    def bootupRoutine(self):
-        self.peto.Blink()
-        while True:
-            print("finding pair")
-            time.sleep(3)
-            try:
-                result = requests.get(f'{serverURL}:{serverPORT}/pair/{self.peto.machine_id}').json()['pet_id']
-                print(result)
-                if result:
-                    self.peto.id = result
-                    # lets find pet's name
-                    self.peto.petName = requests.get(f'{serverURL}:{serverPORT}/pets/{result}').json()['name']
-                    print("found!")
-                    self.peto.Blink()
-                    break
-
-            except:
-                print("failed")
-
-        pass
+    # def bootupRoutine(self):
+    #     self.peto.Blink()
+    #     while True:
+    #         print("finding pair")
+    #         time.sleep(3)
+    #         try:
+    #             result = requests.get(f'{serverURL}:{serverPORT}/pair/{self.peto.machine_id}').json()['pet_id']
+    #             print(result)
+    #             if result:
+    #                 self.peto.id = result
+    #                 # lets find pet's name
+    #                 self.peto.petName = requests.get(f'{serverURL}:{serverPORT}/pets/{result}').json()['name']
+    #                 print("found!")
+    #                 self.peto.Blink()
+    #                 break
+    #
+    #         except:
+    #             print("failed")
+    #
+    #     pass
 
