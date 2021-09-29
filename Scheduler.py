@@ -67,11 +67,11 @@ def check_for_new_schedule(peto):
             for meal in schedule_list:
                 if meal['repeat_daily']:
                     schedule.every().day.at(meal["time"]).do(feed, peto, meal["amount"], meal["id"], meal["name"]).tag(
-                        "schedule", meal["id"])
+                        "normalRoutine", meal["id"])
                 else:
                     schedule.every().day.at(meal["time"]).do(feedOnce, peto, meal["amount"], meal["id"],
                                                              meal["name"]).tag(
-                        "schedule", meal["id"])  # will be deleted from schedule after one feed
+                        "normalRoutine", meal["id"])  # will be deleted from schedule after one feed
                 print("meal added")
 
 
@@ -93,7 +93,7 @@ def should_I_Feed(peto):
             "body": f"{num} grams added to plate"
         })
         # schedule.every(15).seconds.do(check_for_remaining_food, peto)
-        schedule.every(1).minutes.do(check_for_remaining_food, peto)
+        schedule.every(1).minutes.do(check_for_remaining_food, peto).tag("normalRoutine")
 
 
 
@@ -138,7 +138,7 @@ def feed(peto, grams, mealID, mealName):
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     print("feeding pet")
     num = peto.FeedPet(grams)
-    schedule.every(1).minutes.do(check_for_remaining_food, peto)
+    schedule.every(1).minutes.do(check_for_remaining_food, peto).tag("normalRoutine")
     x = requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
@@ -154,7 +154,7 @@ def feedOnce(peto, grams, mealID, mealName):
     # peto.currentMeal.name = mealName
     # peto.currentMeal.mealTime = datetime.now().strftime("%H:%M:%S")
     num = peto.FeedPet(grams)
-    schedule.every(1).minutes.do(check_for_remaining_food, peto)
+    schedule.every(1).minutes.do(check_for_remaining_food, peto).tag("normalRoutine")
     x = requests.put(f'{serverURL}:{serverPORT}/push/{peto.id}', data={
         "title": "Meal Is Served!",
         "body": f"{num} grams added to plate"
@@ -188,6 +188,7 @@ class Scheduler(IScheduler):
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
         while len(schedule.jobs)!=0:
+            print(len(schedule.jobs))
             schedule.run_pending()
             time.sleep(1)
         # schedule.every().hour.do(job)
