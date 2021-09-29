@@ -25,8 +25,9 @@ if __name__ == '__main__':
     petoSchudeler = Scheduler(peto=peto,config=config)
     try:
         while True:
-        # petoSchudeler.bootupRoutine()
             petoSchudeler.normalRoutine()
+            print("main loop")
+        # petoSchudeler.bootupRoutine()
     except (KeyboardInterrupt, SystemExit):
         print('Bye :)')
     finally:

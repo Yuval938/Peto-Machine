@@ -81,6 +81,7 @@ def should_I_Feed(peto):
     if val == 'null':
         pass
     elif int(val) == 0:
+        print("canceling jobs")
         schedule.clear('normalRoutine')
         #cancel jobs
     else:
