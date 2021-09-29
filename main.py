@@ -12,22 +12,22 @@ GPIO.setmode(GPIO.BCM)
 
 if __name__ == '__main__':
     config = configparser.ConfigParser()
-    config.read('cfg.ini')
-    plate_scale = Scale(config['SCALE']['plate_scale_cfg'], 11, 10)
-    plate_scale.initWeight()
-    container_scale = Scale(config['SCALE']['container_scale_cfg'], 21, 20)
-    container_scale.initWeight()
-    motor = Motor(18)
-    lamp = Lamp(12)
+    config.read('cfg.ini')  # init config with args
+    plate_scale = Scale(config['SCALE']['plate_scale_cfg'], 11, 10)  # init scale
+    plate_scale.initWeight()  # loac cfg
+    container_scale = Scale(config['SCALE']['container_scale_cfg'], 21, 20)  # init second scale
+    container_scale.initWeight()  # load cfg
+    motor = Motor(18)  # init motor
+    lamp = Lamp(12)  # init lamp
+    # init PETO with sensors(lamp,motor,scale) as args
     peto = PETO(plateScale=plate_scale, containerScale=container_scale, motor=motor,
-                lamp=lamp,machine_id = int(config['PETO']['machine_id']))
-    # if everything is ok,we should run the normal rotuine
-    petoSchudeler = Scheduler(peto=peto,config=config)
+                lamp=lamp, machine_id=int(config['PETO']['machine_id']))
+    # init Scheduler with PETO as arg
+    petoSchudeler = Scheduler(peto=peto, config=config)
     try:
         while True:
+            # preform the predefined schedule
             petoSchudeler.normalRoutine()
-            print("main loop")
-        # petoSchudeler.bootupRoutine()
     except (KeyboardInterrupt, SystemExit):
         print('Bye :)')
     finally:

@@ -14,6 +14,7 @@ from ILamp import ILamp
 
 
 class Lamp(ILamp):
+
     def __init__(self, ledPin):
         super().__init__()
         self.blink = False
@@ -25,12 +26,20 @@ class Lamp(ILamp):
         GPIO.output(self.ledPin, GPIO.LOW)  # make ledPin output LOW level
         print('using pin%d' % self.ledPin)
         threading.Thread(target=self.Blink).start()
+    #lamp on
     def On(self):
         GPIO.output(self.ledPin, GPIO.HIGH)
         self.on=True
+
+
+
+    # lamp off
     def Off(self):
         GPIO.output(self.ledPin, GPIO.LOW)
         self.on=False
+
+
+    # lamp blink
     def Blink(self):
         while self.MachineOn:
             time.sleep(0.5)
