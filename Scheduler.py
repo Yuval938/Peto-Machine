@@ -13,7 +13,7 @@ min_scale_val: int = None
 max_scale_val: int = None
 
 
-def bootupRoutine(self,peto):
+def bootupRoutine(peto):
     peto.Blink()
     while True:
         print("finding pair")
@@ -181,7 +181,7 @@ class Scheduler(IScheduler):
 
     def normalRoutine(self):
         self.peto.lightON()
-        schedule.every(1).seconds.do(bootupRoutine,self.peto).tag("normalRoutine")
+        schedule.every(1).seconds.do(bootupRoutine, self.peto).tag("normalRoutine")
         schedule.every(5).seconds.do(container_status, self.peto).tag("normalRoutine") #should be 10 min
         schedule.every(30).seconds.do(check_for_new_schedule, self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
