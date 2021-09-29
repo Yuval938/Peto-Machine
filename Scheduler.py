@@ -32,7 +32,6 @@ def bootupRoutine(peto):
 
         except:
             print("failed")
-    peto.Blink()
     return schedule.CancelJob
 
 
