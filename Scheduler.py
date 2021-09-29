@@ -27,11 +27,12 @@ def bootupRoutine(peto):
                 peto.petName = requests.get(f'{serverURL}:{serverPORT}/pets/{result}').json()['name']
                 print("found!")
                 peto.Blink()
+                peto.lightON()
                 break
 
         except:
             print("failed")
-
+    peto.Blink()
     return schedule.CancelJob
 
 
