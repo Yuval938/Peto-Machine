@@ -26,14 +26,12 @@ class Motor(IMotor):
             # Here we are configuring our PIN to OUPUT to send current through it
             GPIO.setup(self.servoControlPin, GPIO.OUT)
             # Now we have to set the pulse wave modulations
-            '''
-            FROM ADAFRUIT DOCUMENTATION, the controls of the servo are :  
+            ''' 
             FULL SPEED FORWARD --> Position "180" requires 2ms pulse 
             FULL SPEED BACKWARD -->  Position "0" requires 1ms pulse 
             STOP --> Position "90" requires 1.5ms pulses
             PWM is a way to send some pulses to the control PIN of the servo.
             For example, a PWM at 1 Hertz means 1 pulse every second.
-            Let's take 100 Hertz as an example.
             '''
 
             self.PWM_FREQUENCY = 100  # In Hertz, which means 100 pulses in 1secs (1000ms) --> 1 pulse = 10ms

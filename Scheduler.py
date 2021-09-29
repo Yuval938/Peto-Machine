@@ -153,7 +153,7 @@ class Scheduler(IScheduler):
 
     def normalRoutine(self):
         self.peto.lightON()
-        schedule.every(5).seconds.do(container_status, self.peto).tag("normalRoutine")
+        schedule.every(5).seconds.do(container_status, self.peto).tag("normalRoutine") #should be 10 min
         schedule.every(30).seconds.do(check_for_new_schedule, self.peto).tag("normalRoutine")
         schedule.every(4).seconds.do(should_I_Feed, self.peto).tag("normalRoutine")
         # schedule.every(4).minutes.do(feed, self.peto,30)
@@ -163,14 +163,15 @@ class Scheduler(IScheduler):
         # schedule.every().hour.do(job)
         # schedule.every().day.at("10:30").do(job)
         pass
-
+        # we give server our Machine_id and wait for sync with a specific app
     def bootupRoutine(self):
+        self.peto.Blink()
         while True:
-            self.peto.Blink()
             print("finding pair")
             time.sleep(3)
             try:
                 result = requests.get(f'{serverURL}:{serverPORT}/pair/{self.peto.machine_id}').json()['pet_id']
+                print(result)
                 if result:
                     self.peto.id = result
                     # lets find pet's name
@@ -183,4 +184,4 @@ class Scheduler(IScheduler):
                 print("failed")
 
         pass
-        # we give server our serial code and wait for sync with mobile device
+
