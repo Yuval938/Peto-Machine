@@ -32,6 +32,7 @@ def bootupRoutine(peto):
 
         except:
             print("failed")
+    peto.lightON()
     return schedule.CancelJob
 
 
