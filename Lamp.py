@@ -41,6 +41,7 @@ class Lamp(ILamp):
                 self.Off()  # make ledPin output LOW level to turn off led
                 # print('led turned off <<<')
                 time.sleep(0.4)  # Wait for 1 second
+                self.On()
 
 
 
